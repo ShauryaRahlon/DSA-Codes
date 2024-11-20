@@ -1,22 +1,42 @@
+// love babbar
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 1e3 + 10;
-int graph1[N][N];
-// vector<int> graph2[N];
-vector<pair<int, int>> graph2[N];
+template <typename T>
+class graph
+{
+public:
+    unordered_map<T, list<T>> adj;
+    void addEdge(T u, T v, bool direction)
+    {
+        adj[u].push_back(v);
+        if (direction == 0)
+            adj[v].push_back(u);
+    }
+    void printList()
+    {
+        for (auto i : adj)
+        {
+            cout << i.first << "->";
+            for (auto j : i.second)
+            {
+                cout << j << ",";
+            }
+            cout << endl;
+        }
+    }
+};
 int main()
 {
-    int n, m;
-    cin >> n >> m;
+    int n;
+    cin >> n;
+    int m;
+    cin >> m;
+    graph<int> g;
     for (int i = 0; i < m; i++)
     {
-        int a, b, wt;
-        cin >> a >> b >> wt;
-        graph1[a][b] = wt;
-        graph1[b][a] = wt;
-        // using adjacency list
-        graph2[a].push_back({b, wt});
-        graph2[b].push_back({a, wt});
-
-    } // O(N*N) space in matrix
+        int u, v;
+        cin >> u >> v;
+        g.addEdge(u, v, 0);
+    }
+    g.printList();
 }
