@@ -1,44 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-void dpfs(int node, vector<int> adj[], int vis[], vector<int> &ls)
+void dfsR(vector<vector<int>> &adj, vector<bool> &vis, int V)
 {
-    vis[node] = 1;
-    ls.push_back(node);
-    // traverse its neighbour
-    for (auto it : adj[node])
+    vis[V] = 1;
+    cout << V << endl;
+    for (auto it : adj[V])
     {
         if (!vis[it])
-        {
-            dpfs(it, adj, vis, ls);
-        }
+            dfsR(adj, vis, it);
     }
 }
-
-vector<int> dfss(int V, vector<int> adj[])
+void dfs(vector<vector<int>> &adj, int V)
 {
-    // if 0 indexed
-    int vis[V] = {0};
-    int start = 0;
-    vector<int> ls;
-    dpfs(start, adj, vis, ls);
-    return ls;
+    vector<bool> vis(adj.size(), 0);
+    dfsR(adj, vis, V);
+}
+void addEdge(vector<vector<int>> &adj, int u, int v)
+{
+    adj[u].push_back(v);
+    adj[v].push_back(u);
 }
 int main()
 {
-    int n, m;
-    cin >> n >> m;
-    vector<int> adj[n];
-    for (int i = 0; i < m; i++)
-    {
-        int u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-    vector<int> ans = dfss(n, adj);
-    for (int i = 0; i < ans.size(); i++)
-    {
-        cout << ans[i] << " ";
-    }
+    int V = 5;
+    vector<vector<int>> adj(V);
+    addEdge(adj, 1, 2);
+    addEdge(adj, 2, 3);
+    addEdge(adj, 1, 3);
+    addEdge(adj, 3, 4);
+    dfs(adj, 1);
 }
